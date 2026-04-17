@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f9;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    .top-bar {
+      margin-bottom: 15px;
+    }
+
+    input {
+      padding: 8px;
+      width: 250px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+      padding: 10px;
+    }
+
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+    }
+
+    .delete-btn {
+      background: red;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<h2>Admin Panel</h2>
+
+<div class="top-bar">
+  <input type="text" id="search" placeholder="Search by name..." onkeyup="filterData()">
+  <button onclick="downloadExcel()">Download Excel</button>
+</div>
+
+<table id="dataTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Designation</th>
+      <th>Email</th>
+      <th>Mobile</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<script>
+const supabaseUrl = "https://pnmvkexztowmcakmgxtj.supabase.co";
+const supabaseKey = "sb_publishable_5WKF82sJGvKiuT3SaKZCGw_JbXzhXo6";
+
+const client = supabase.createClient(supabaseUrl, supabaseKey);
+
+let allData = [];
+
+async function loadData() {
+  const { data, error } = await client
+    .from("users")
+    .select("*");
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  allData = data;
+  displayData(data);
+}
+
+function displayData(data) {
+  const table = document.querySelector("#dataTable tbody");
+  table.innerHTML = "";
+
+  data.forEach(user => {
+    const row = `<tr>
+      <td>${user.name}</td>
+      <td>${user.designation}</td>
+      <td>${user.email}</td>
+      <td>${user.mobile}</td>
+      <td><button class="delete-btn" onclick="deleteUser('${user.id}')">Delete</button></td>
+    </tr>`;
+    
+    table.innerHTML += row;
+  });
+}
+
+// 🔍 Search
+function filterData() {
+  let search = document.getElementById("search").value.toLowerCase();
+
+  let filtered = allData.filter(u =>
+    u.name.toLowerCase().includes(search) ||
+    u.mobile.includes(search)
+  );
+
+  displayData(filtered);
+}
+
+// ❌ Delete
+async function deleteUser(id) {
+  if (!confirm("Are you sure?")) return;
+
+  const { error } = await client
+    .from("users")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert("Delete failed");
+    console.log(error);
+  } else {
+    alert("Deleted");
+    loadData();
+  }
+}
+
+// 📊 Excel
+function downloadExcel() {
+  let table = document.getElementById("dataTable").outerHTML;
+  let data = "data:application/vnd.ms-excel," + encodeURIComponent(table);
+
+  let link = document.createElement("a");
+  link.href = data;
+  link.download = "users_data.xls";
+  link.click();
+}
+
+loadData();
+</script>
+
+</body>
+</html>
