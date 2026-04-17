@@ -14,33 +14,60 @@
 
 <button onclick="saveUser()">Submit</button>
 
-<!-- ✅ CORRECT CDN -->
+<!-- ✅ SUPABASE CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
 <script>
 const supabaseUrl = "https://pnmvkexztowmcakmgxtj.supabase.co";
 const supabaseKey = "sb_publishable_5WKF82sJGvKiuT3SaKZCGw_JbXzhXo6";
 
-// ✅ CORRECT WAY
+// ✅ FIXED CLIENT
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function saveUser() {
-  console.log("Button clicked");
 
-  const name = document.getElementById("name").value;
-  const designation = document.getElementById("designation").value;
-  const email = document.getElementById("email").value;
-  const mobile = document.getElementById("mobile").value;
+  const name = document.getElementById("name").value.trim();
+  const designation = document.getElementById("designation").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
 
-  const { error } = await client
-    .from("users")
-    .insert([{ name, designation, email, mobile }]);
+  // ✅ VALIDATION
+  if (!name || !designation || !email || !mobile) {
+    alert("Please fill all fields");
+    return;
+  }
 
-  if (error) {
-    alert("Error saving data");
-    console.log(error);
-  } else {
-    alert("Saved successfully");
+  if (!email.includes("@")) {
+    alert("Invalid Email");
+    return;
+  }
+
+  if (mobile.length !== 10) {
+    alert("Mobile must be 10 digits");
+    return;
+  }
+
+  try {
+    const { error } = await client
+      .from("users")
+      .insert([{ name, designation, email, mobile }]);
+
+    if (error) {
+      console.log(error);
+      alert("Error saving data");
+    } else {
+      alert("Saved successfully ✅");
+
+      // ✅ clear form
+      document.getElementById("name").value = "";
+      document.getElementById("designation").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("mobile").value = "";
+    }
+
+  } catch (err) {
+    console.log(err);
+    alert("Something went wrong");
   }
 }
 </script>
