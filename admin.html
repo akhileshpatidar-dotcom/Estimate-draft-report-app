@@ -2,7 +2,55 @@
 <html>
 <head>
   <title>Admin Panel</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f5f6fa;
+    }
+
+    h2 {
+      color: #2c3e50;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #219150;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th {
+      background: #2c3e50;
+      color: white;
+      padding: 10px;
+    }
+
+    td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+  </style>
 </head>
+
 <body>
 
 <h2>All Users Data</h2>
@@ -11,7 +59,7 @@
 
 <br><br>
 
-<table border="1" id="dataTable">
+<table id="dataTable">
   <thead>
     <tr>
       <th>Name</th>
@@ -26,7 +74,7 @@
 </table>
 
 <!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Excel Library -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -42,7 +90,8 @@ let allData = [];
 async function loadData() {
   const { data, error } = await client
     .from("users")
-    .select("*");
+    .select("*")
+    .order("created_at", { ascending: false }); // ✅ latest first
 
   if (error) {
     console.log(error);
@@ -57,7 +106,13 @@ async function loadData() {
 
   data.forEach(user => {
 
-    // ✅ DATE & TIME FORMAT
+    // ✅ SAFE VALUES (null fix)
+    const name = user.name || "-";
+    const designation = user.designation || "-";
+    const email = user.email || "-";
+    const mobile = user.mobile || "-";
+
+    // ✅ DATE & TIME
     let date = "";
     let time = "";
 
@@ -67,20 +122,22 @@ async function loadData() {
       time = d.toLocaleTimeString();
     }
 
-    const row = `<tr>
-      <td>${user.name}</td>
-      <td>${user.designation}</td>
-      <td>${user.email}</td>
-      <td>${user.mobile}</td>
-      <td>${date}</td>
-      <td>${time}</td>
-    </tr>`;
-    
+    const row = `
+      <tr>
+        <td>${name}</td>
+        <td>${designation}</td>
+        <td>${email}</td>
+        <td>${mobile}</td>
+        <td>${date}</td>
+        <td>${time}</td>
+      </tr>
+    `;
+
     table.innerHTML += row;
   });
 }
 
-// ✅ Excel Download (with date time)
+// ✅ Excel Download
 function downloadExcel() {
   const formatted = allData.map(user => {
     let date = "";
@@ -93,10 +150,10 @@ function downloadExcel() {
     }
 
     return {
-      Name: user.name,
-      Designation: user.designation,
-      Email: user.email,
-      Mobile: user.mobile,
+      Name: user.name || "-",
+      Designation: user.designation || "-",
+      Email: user.email || "-",
+      Mobile: user.mobile || "-",
       Date: date,
       Time: time
     };
@@ -109,6 +166,10 @@ function downloadExcel() {
   XLSX.writeFile(workbook, "users_data.xlsx");
 }
 
+// ✅ AUTO REFRESH (हर 5 सेकंड में)
+setInterval(loadData, 5000);
+
+// पहली बार load
 loadData();
 </script>
 
