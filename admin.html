@@ -18,6 +18,8 @@
       <th>Designation</th>
       <th>Email</th>
       <th>Mobile</th>
+      <th>Date</th>
+      <th>Time</th>
     </tr>
   </thead>
   <tbody></tbody>
@@ -54,20 +56,53 @@ async function loadData() {
   table.innerHTML = "";
 
   data.forEach(user => {
+
+    // ✅ DATE & TIME FORMAT
+    let date = "";
+    let time = "";
+
+    if (user.created_at) {
+      const d = new Date(user.created_at);
+      date = d.toLocaleDateString();
+      time = d.toLocaleTimeString();
+    }
+
     const row = `<tr>
       <td>${user.name}</td>
       <td>${user.designation}</td>
       <td>${user.email}</td>
       <td>${user.mobile}</td>
+      <td>${date}</td>
+      <td>${time}</td>
     </tr>`;
     
     table.innerHTML += row;
   });
 }
 
-// ✅ Excel Download
+// ✅ Excel Download (with date time)
 function downloadExcel() {
-  const worksheet = XLSX.utils.json_to_sheet(allData);
+  const formatted = allData.map(user => {
+    let date = "";
+    let time = "";
+
+    if (user.created_at) {
+      const d = new Date(user.created_at);
+      date = d.toLocaleDateString();
+      time = d.toLocaleTimeString();
+    }
+
+    return {
+      Name: user.name,
+      Designation: user.designation,
+      Email: user.email,
+      Mobile: user.mobile,
+      Date: date,
+      Time: time
+    };
+  });
+
+  const worksheet = XLSX.utils.json_to_sheet(formatted);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
 
