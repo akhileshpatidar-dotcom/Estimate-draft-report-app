@@ -23,10 +23,6 @@
       border-radius: 5px;
     }
 
-    button:hover {
-      background: #219150;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -76,7 +72,7 @@
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Excel Library -->
+<!-- Excel -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 <script>
@@ -87,11 +83,12 @@ const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allData = [];
 
+// ✅ LOAD DATA (latest first)
 async function loadData() {
   const { data, error } = await client
     .from("users")
     .select("*")
-    .order("created_at", { ascending: false }); // ✅ latest first
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.log(error);
@@ -106,13 +103,11 @@ async function loadData() {
 
   data.forEach(user => {
 
-    // ✅ SAFE VALUES (null fix)
     const name = user.name || "-";
     const designation = user.designation || "-";
     const email = user.email || "-";
     const mobile = user.mobile || "-";
 
-    // ✅ DATE & TIME
     let date = "";
     let time = "";
 
@@ -139,6 +134,12 @@ async function loadData() {
 
 // ✅ Excel Download
 function downloadExcel() {
+
+  if (allData.length === 0) {
+    alert("No data available");
+    return;
+  }
+
   const formatted = allData.map(user => {
     let date = "";
     let time = "";
@@ -166,7 +167,7 @@ function downloadExcel() {
   XLSX.writeFile(workbook, "users_data.xlsx");
 }
 
-// ✅ AUTO REFRESH (हर 5 सेकंड में)
+// ✅ AUTO REFRESH (हर 5 सेकंड)
 setInterval(loadData, 5000);
 
 // पहली बार load
