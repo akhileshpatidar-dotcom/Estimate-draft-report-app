@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Estimate App</title>
+  <title>Estimate App (FINAL)</title>
 </head>
 
 <body>
@@ -12,8 +12,8 @@
 
 <br><br>
 
-<!-- 🔥 Registration Form -->
-<div id="formBox">
+<!-- Registration Form -->
+<div id="formBox" style="display:none;">
   <h3>Registration (First Time Only)</h3>
 
   <input type="text" id="name" placeholder="Name"><br><br>
@@ -24,25 +24,24 @@
   <button onclick="saveUser()">Submit</button>
 </div>
 
-<!-- SUPABASE -->
+<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 const supabaseUrl = "https://pnmvkexztowmcakmgxtj.supabase.co";
 const supabaseKey = "sb_publishable_5WKF82sJGvKiuT3SaKZCGw_JbXzhXo6";
-
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-// 🔥 page load → check user
+// PAGE LOAD
 window.onload = function () {
   const savedUser = localStorage.getItem("estimate_app_user");
 
-  if (savedUser) {
-    document.getElementById("formBox").style.display = "none";
+  if (!savedUser) {
+    document.getElementById("formBox").style.display = "block";
   }
 };
 
-// 🔥 SAVE USER (FIRST TIME)
+// SAVE USER (FIRST TIME)
 async function saveUser() {
 
   const name = document.getElementById("name").value.trim();
@@ -65,43 +64,49 @@ async function saveUser() {
     return;
   }
 
-  // ✅ first time save
+  // save user
   await client.from("users").insert([
     { name, designation, email, mobile }
   ]);
 
-  // ✅ save local
+  // save locally
   localStorage.setItem("estimate_app_user", JSON.stringify({
     name, designation, email, mobile
   }));
 
   document.getElementById("formBox").style.display = "none";
 
-  alert("Registered successfully ✅");
+  // first log
+  await client.from("download_logs").insert([
+    {
+      userName: name,
+      userMobile: mobile,
+      workName: "N/A"
+    }
+  ]);
+
+  alert("Registered + Downloaded ✅");
 }
 
-// 🔥 DOWNLOAD BUTTON
+// DOWNLOAD
 async function handleDownload() {
 
   const savedUser = JSON.parse(localStorage.getItem("estimate_app_user"));
 
-  // ❌ not registered → show form
   if (!savedUser) {
     document.getElementById("formBox").style.display = "block";
     return;
   }
 
-  // ✅ हर बार नई entry
-  await client.from("users").insert([
+  // हर बार log
+  await client.from("download_logs").insert([
     {
-      name: savedUser.name,
-      designation: savedUser.designation,
-      email: savedUser.email,
-      mobile: savedUser.mobile
+      userName: savedUser.name,
+      userMobile: savedUser.mobile,
+      workName: "N/A"
     }
   ]);
 
-  // ✅ download simulation
   alert("Report Downloaded ✅");
 }
 </script>
