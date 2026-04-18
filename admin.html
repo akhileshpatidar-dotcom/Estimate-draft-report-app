@@ -4,23 +4,21 @@
   <title>Admin Panel</title>
 
   <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-      background: #f5f6fa;
-    }
-
-    h2 {
-      color: #2c3e50;
-    }
+    body { font-family: Arial; padding: 20px; background: #f5f6fa; }
+    h2 { color: #2c3e50; }
 
     button {
-      padding: 10px 15px;
+      padding: 8px 12px;
       background: #27ae60;
       color: white;
       border: none;
       cursor: pointer;
       border-radius: 5px;
+      margin: 2px;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
     }
 
     table {
@@ -64,15 +62,13 @@
       <th>Mobile</th>
       <th>Date</th>
       <th>Time</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody></tbody>
 </table>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- Excel -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 <script>
@@ -83,7 +79,6 @@ const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allData = [];
 
-// ✅ LOAD DATA
 async function loadData() {
   const { data, error } = await client
     .from("users")
@@ -92,6 +87,7 @@ async function loadData() {
 
   if (error) {
     console.log(error);
+    alert("Error loading data");
     return;
   }
 
@@ -99,21 +95,13 @@ async function loadData() {
   renderTable();
 }
 
-// ✅ RENDER TABLE
 function renderTable() {
   const table = document.querySelector("#dataTable tbody");
   table.innerHTML = "";
 
   allData.forEach(user => {
 
-    const name = user.name || "-";
-    const designation = user.designation || "-";
-    const email = user.email || "-";
-    const mobile = user.mobile || "-";
-
-    let date = "";
-    let time = "";
-
+    let date = "", time = "";
     if (user.created_at) {
       const d = new Date(user.created_at);
       date = d.toLocaleDateString();
@@ -122,12 +110,15 @@ function renderTable() {
 
     const row = `
       <tr>
-        <td>${name}</td>
-        <td>${designation}</td>
-        <td>${email}</td>
-        <td>${mobile}</td>
+        <td>${user.name || "-"}</td>
+        <td>${user.designation || "-"}</td>
+        <td>${user.email || "-"}</td>
+        <td>${user.mobile || "-"}</td>
         <td>${date}</td>
         <td>${time}</td>
+        <td>
+          <button class="delete-btn" onclick="deleteUser('${user.id}')">Delete</button>
+        </td>
       </tr>
     `;
 
@@ -135,28 +126,27 @@ function renderTable() {
   });
 }
 
-// ✅ REALTIME LISTENER (🔥 INSTANT UPDATE)
-client
-  .channel('users-changes')
-  .on('postgres_changes', 
-    { event: '*', schema: 'public', table: 'users' },
-    payload => {
-      console.log("Realtime update:", payload);
-      loadData(); // 🔥 instant refresh
-    }
-  )
-  .subscribe();
+// ✅ DELETE FUNCTION
+async function deleteUser(id) {
+  if (!confirm("Delete this user?")) return;
+
+  const { error } = await client
+    .from("users")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.log(error);
+    alert("Delete failed");
+  } else {
+    loadData();
+  }
+}
 
 // ✅ Excel Download
 function downloadExcel() {
-  if (allData.length === 0) {
-    alert("No data available");
-    return;
-  }
-
   const formatted = allData.map(user => {
-    let date = "";
-    let time = "";
+    let date = "", time = "";
 
     if (user.created_at) {
       const d = new Date(user.created_at);
@@ -181,10 +171,8 @@ function downloadExcel() {
   XLSX.writeFile(workbook, "users_data.xlsx");
 }
 
-// ✅ BACKUP REFRESH (every 5 sec)
+// refresh
 setInterval(loadData, 5000);
-
-// पहली बार load
 loadData();
 </script>
 
