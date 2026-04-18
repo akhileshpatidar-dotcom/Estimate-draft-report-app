@@ -14,23 +14,6 @@
 
 <button onclick="saveUser()">Submit</button>
 
-<hr>
-
-<h3>Saved Data</h3>
-
-<table border="1">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Designation</th>
-      <th>Email</th>
-      <th>Mobile</th>
-      <th>Date & Time</th>
-    </tr>
-  </thead>
-  <tbody id="tableBody"></tbody>
-</table>
-
 <!-- SUPABASE CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -40,7 +23,7 @@ const supabaseKey = "sb_publishable_5WKF82sJGvKiuT3SaKZCGw_JbXzhXo6";
 
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-// 🔥 SAVE USER
+// ✅ SAVE USER
 async function saveUser() {
 
   const name = document.getElementById("name").value.trim();
@@ -48,6 +31,7 @@ async function saveUser() {
   const email = document.getElementById("email").value.trim();
   const mobile = document.getElementById("mobile").value.trim();
 
+  // VALIDATION
   if (!name || !designation || !email || !mobile) {
     alert("Please fill all fields");
     return;
@@ -72,48 +56,13 @@ async function saveUser() {
   } else {
     alert("Saved successfully ✅");
 
+    // clear form
     document.getElementById("name").value = "";
     document.getElementById("designation").value = "";
     document.getElementById("email").value = "";
     document.getElementById("mobile").value = "";
-
-    loadUsers(); // 🔥 reload table
   }
 }
-
-// 🔥 LOAD USERS (MAIN IMPORTANT PART)
-async function loadUsers() {
-
-  const { data, error } = await client
-    .from("users")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.log(error);
-    return;
-  }
-
-  let html = "";
-
-  data.forEach(item => {
-    html += `
-      <tr>
-        <td>${item.name}</td>
-        <td>${item.designation}</td>
-        <td>${item.email}</td>
-        <td>${item.mobile}</td>
-        <td>${new Date(item.created_at).toLocaleString()}</td>
-      </tr>
-    `;
-  });
-
-  document.getElementById("tableBody").innerHTML = html;
-}
-
-// 🔥 PAGE LOAD पर data दिखाओ
-loadUsers();
-
 </script>
 
 </body>
