@@ -83,7 +83,7 @@ const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allData = [];
 
-// ✅ LOAD DATA (latest first)
+// ✅ LOAD DATA
 async function loadData() {
   const { data, error } = await client
     .from("users")
@@ -92,16 +92,19 @@ async function loadData() {
 
   if (error) {
     console.log(error);
-    alert("Error loading data");
     return;
   }
 
   allData = data;
+  renderTable();
+}
 
+// ✅ RENDER TABLE
+function renderTable() {
   const table = document.querySelector("#dataTable tbody");
   table.innerHTML = "";
 
-  data.forEach(user => {
+  allData.forEach(user => {
 
     const name = user.name || "-";
     const designation = user.designation || "-";
@@ -132,9 +135,20 @@ async function loadData() {
   });
 }
 
+// ✅ REALTIME LISTENER (🔥 INSTANT UPDATE)
+client
+  .channel('users-changes')
+  .on('postgres_changes', 
+    { event: '*', schema: 'public', table: 'users' },
+    payload => {
+      console.log("Realtime update:", payload);
+      loadData(); // 🔥 instant refresh
+    }
+  )
+  .subscribe();
+
 // ✅ Excel Download
 function downloadExcel() {
-
   if (allData.length === 0) {
     alert("No data available");
     return;
@@ -167,7 +181,7 @@ function downloadExcel() {
   XLSX.writeFile(workbook, "users_data.xlsx");
 }
 
-// ✅ AUTO REFRESH (हर 5 सेकंड)
+// ✅ BACKUP REFRESH (every 5 sec)
 setInterval(loadData, 5000);
 
 // पहली बार load
