@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Estimate App - Akhilesh Patidar (LOCKED FINAL)</title>
-    
+
     <!-- PWA Settings -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href='data:application/json,{"name":"Estimate App AE","short_name":"Estimate","start_url":".","display":"standalone","background_color":"#f3f4f6","theme_color":"#1e3a8a"}'>
+    <link rel="manifest" href='data:application/json,{"name":"Estimate App AE","short_name":"Estimate","start_url":".","display":"standalone","background_color":"%23f3f4f6","theme_color":"%231e3a8a","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAACg0lEQVR4nO3dr25TYRjAYUpw3XXsAgqGe8DMcAENIbMk0xBMVcX0BJp0YgbRGyB1uxIUjswgSCjhj+lv3ck5PI884uTNyS+v6Zevs+1q/ggO9XjoARg3AZEIiERAJAIiefLno9ef3j38HIzC1Yv3vz2xgUgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCJ%2BeTlqZ89vL199HnqKf/ry9eTpm7dDT3GfbCASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQydSOcxQXH15ef3429BQjYwORCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREIlf4/fWy816uTnSy6d3rcIPNhCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIxHGOPZcrHMAGIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZFM5FDBTze7xc1uMfQU/xEbiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZHMtqv50DMwYjYQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkcy2q/nQMzBiNhCJgEgERCIgEgGRfAcdFSL/GocmtwAAAABJRU5ErkJggg==","sizes":"192x192","type":"image/png","purpose":"any maskable"}]}'>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    
+
     <!-- SUPABASE CDN INTEGRATION -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -21,21 +21,21 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: #d1d5db; margin: 0; padding: 0; font-family: 'Inter', sans-serif; color: #1f2937; scroll-behavior: smooth; overflow: hidden; }
-        
+
         /* STRICT 100dvh and hidden overflow to keep button visible */
-        .mobile-container { 
-            max-width: 450px; 
-            margin: 0 auto; 
-            background-color: #f3f4f6; 
-            height: 100vh; 
-            height: 100dvh; 
-            display: flex; 
-            flex-direction: column; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
-            position: relative; 
-            overflow: hidden; 
+        .mobile-container {
+            max-width: 450px;
+            margin: 0 auto;
+            background-color: #f3f4f6;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
         }
-        
+
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
@@ -49,12 +49,12 @@
         .work-section { padding: 10px 16px 6px 16px; flex-shrink: 0; }
         .input-label { font-size: 11px; font-weight: bold; color: #1e3a8a; margin-bottom: 4px; display: block; text-transform: uppercase; }
         .work-input { width: 100%; padding: 10px 12px; background: #ffffff; border: 1.5px solid #b8860b; border-radius: 8px; color: #111; font-size: 13px; outline: none; resize: none; min-height: 40px; font-family: 'Inter', sans-serif !important; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); display: block; }
-        
+
         .search-section { padding: 6px 16px; position: relative; flex-shrink: 0; }
         .search-bar-container { position: relative; display: flex; align-items: center; width: 100%; }
         .search-icon { position: absolute; left: 16px; color: #1e3a8a; z-index: 5; font-size: 14px; }
         .unified-search { width: 100%; padding: 10px 10px 10px 40px; background: #ffffff; border: 2px solid #1e3a8a; border-radius: 10px; color: #0f172a; font-weight: 600; font-size: 13px; outline: none; display: block; }
-        
+
         .dropdown-results { position: absolute; top: 50px; left: 0; right: 0; background: white; border-radius: 10px; max-height: 250px; overflow-y: auto; z-index: 100; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.25); border: 1.5px solid #1e3a8a; margin: 0 16px; }
         .search-result-card { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .item-desc-text { font-size: 10px; color: #2d3748; line-height: 1.4; font-weight: 600; flex: 1; margin-right: 10px; }
@@ -68,7 +68,7 @@
         .rate-label { font-size: 11px; font-weight: 800; color: #b45309; line-height: 1.1; }
         .btn-see-items { background: #000; color: #fff; font-size: 10px; font-weight: 900; padding: 5px 12px; border-radius: 6px; margin-top: 6px; cursor: pointer; text-transform: uppercase; border: none; align-self: flex-end; }
         .btn-remove-corner { position: absolute; top: -5px; right: -5px; background: #ef4444; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; cursor: pointer; border: 1.5px solid #ffffff; font-size: 11px; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        
+
         .internal-items-list { background: #fff; margin-top: 10px; border-radius: 8px; border: 1px dashed #b8860b; padding: 6px 8px; }
         .internal-item-row { display: flex; flex-direction: column; padding: 8px 0; border-bottom: 1px solid #f1f5f9; position: relative; }
         .internal-name-container { display: flex; align-items: flex-start; gap: 6px; width: 100%; }
@@ -81,21 +81,21 @@
 
         /* Summary Box Styles - Home Screen */
         /* Increased bottom padding and fixed bottom alignment */
-        .bottom-anchor { 
-            flex-shrink: 0; 
-            background: #dcebeb; 
-            border-top: 1.5px solid #c2d6d6; 
-            padding: 10px 16px; 
-            padding-bottom: calc(env(safe-area-inset-bottom) + 16px); 
-            width: 100%; 
-            user-select: none; 
+        .bottom-anchor {
+            flex-shrink: 0;
+            background: #dcebeb;
+            border-top: 1.5px solid #c2d6d6;
+            padding: 10px 16px;
+            padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+            width: 100%;
+            user-select: none;
             z-index: 100;
         }
         .summary-box-cyan { border: 2.5px solid #1e3a8a; border-radius: 12px; padding: 8px 12px; background: #ffffff; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); }
         .sum-line { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; color: #1e293b; font-weight: 900; text-transform: uppercase; }
         .grand-total-line { border-top: 1.5px solid #1e3a8a; margin-top: 4px; padding-top: 4px; display: flex; justify-content: space-between; align-items: center; }
         .estimate-label { font-weight: 900; font-size: 14px; color: #000; text-transform: uppercase; }
-        .cyan-text { color: #1e40af; font-weight: 900; font-size: 15px; } 
+        .cyan-text { color: #1e40af; font-weight: 900; font-size: 15px; }
 
         .btn-leather { background: #1a202c; color: white; padding: 10px; border-radius: 10px; width: 100%; margin-top: 10px; border: none; cursor: pointer; text-align: center; border-bottom: 4px solid #000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
@@ -110,12 +110,24 @@
         .keyboard-open .bottom-anchor { display: none !important; }
         .keyboard-edit-sup .bottom-anchor { display: block !important; }
         .keyboard-open .scrollable-content { padding-bottom: 300px; }
+
+        /* Install App Popup */
+        #installModalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 7000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .install-card { background: white; width: 85%; max-width: 340px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.35); }
+        .install-header { background: #1e3a8a; color: #fff; padding: 16px; text-align: center; border-bottom: 3px solid #b8860b; }
+        .install-icon { width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 8px; display: block; }
+        .install-title { font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .install-body { padding: 18px 20px; text-align: center; }
+        .install-text { color: #475569; font-size: 12.5px; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
+        .install-steps { text-align: left; background: #f8fafc; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: #1e293b; font-weight: 600; line-height: 1.9; }
+        .btn-install-now { background: #1e3a8a; color: #fff; width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; border-bottom: 4px solid #b8860b; }
+        .btn-install-later { background: none; color: #64748b; width: 100%; padding: 10px; border: none; font-weight: 700; font-size: 11.5px; text-transform: uppercase; cursor: pointer; margin-top: 4px; }
     </style>
 </head>
 <body>
     <div class="mobile-container" id="appContainer">
         <div id="dataStatus" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 2000; padding: 4px; text-align: center; font-size: 10px; font-weight: bold; background: #fef3c7; color: #92400e;">SYNCING ERP DATA...</div>
-        
+
         <!-- Registration Form -->
         <div id="userRegistrationModal">
             <div class="reg-card">
@@ -142,6 +154,23 @@
                     <div id="msgText" style="color: #475569; font-weight: 600; font-size: 13px; line-height: 1.5;">Please fill all mandatory details.</div>
                 </div>
                 <button onclick="window.closeMsgModal()" style="background: #1e3a8a; color: white; width: 100%; padding: 12px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase;">OK</button>
+            </div>
+        </div>
+
+        <!-- Install App Popup: shown on load if not yet installed. Keeps
+             reappearing on every visit until the app is actually installed
+             (no permanent "don't show again" - only closing for that visit). -->
+        <div id="installModalOverlay">
+            <div class="install-card">
+                <div class="install-header">
+                    <div class="install-title">Install Estimate App</div>
+                </div>
+                <div class="install-body">
+                    <div id="installText" class="install-text">Install this app on your device for a faster, full-screen, offline-friendly experience — no browser address bar, opens like a normal app.</div>
+                    <div id="installSteps" class="install-steps" style="display:none;"></div>
+                    <button id="installNowBtn" class="btn-install-now" onclick="window.handleInstallClick()">Install Now</button>
+                    <button class="btn-install-later" onclick="window.closeInstallModal()">Maybe Later</button>
+                </div>
             </div>
         </div>
 
@@ -203,7 +232,7 @@
                 <div style="width: 60px;"></div>
             </div>
             <section class="search-section mt-4"><div class="search-bar-container"><span class="search-icon">🔍</span><input type="text" id="miscSearch" class="unified-search" placeholder="Search Misc Item Name..." oninput="window.debouncedSearch(this.value, 'misc')" autocomplete="off"></div><div id="miscDropdown" class="dropdown-results"></div></section>
-            
+
             <section id="miscActionRow" class="action-row-highlight" style="margin: 15px 16px; background: #1e3a8a; border: 2px dashed #FFD700; padding: 14px; border-radius: 12px; display: none;">
                 <div style="display:flex; align-items:center; justify-content: space-between; width: 100%;">
                     <div style="display:flex; align-items:center; gap:12px;">
@@ -242,23 +271,23 @@
         window.searchTimer = null;
 
         // --- CORE HELPERS ---
-        const cleanNum = (val) => { 
-            if (val === undefined || val === null || val === "") return 0; 
-            let cleaned = val.toString().replace(/[₹\s,]/g, '').trim(); 
-            const num = parseFloat(cleaned); 
-            return isNaN(num) ? 0 : num; 
+        const cleanNum = (val) => {
+            if (val === undefined || val === null || val === "") return 0;
+            let cleaned = val.toString().replace(/[₹\s,]/g, '').trim();
+            const num = parseFloat(cleaned);
+            return isNaN(num) ? 0 : num;
         };
 
-        window.isStructure = (u) => { 
-            if (!u) return false; 
-            const unit = u.trim().toUpperCase(); 
-            return /NOS|SET|EACH|NUMBER|EA|PC|PIECE|^NO$|^NO\./.test(unit); 
+        window.isStructure = (u) => {
+            if (!u) return false;
+            const unit = u.trim().toUpperCase();
+            return /NOS|SET|EACH|NUMBER|EA|PC|PIECE|^NO$|^NO\./.test(unit);
         };
 
-        window.showErrorPopup = (title, text) => { 
-            document.getElementById('msgTitle').innerHTML = title; 
-            document.getElementById('msgText').innerHTML = text; 
-            document.getElementById('msgModalOverlay').style.display = 'flex'; 
+        window.showErrorPopup = (title, text) => {
+            document.getElementById('msgTitle').innerHTML = title;
+            document.getElementById('msgText').innerHTML = text;
+            document.getElementById('msgModalOverlay').style.display = 'flex';
         };
         window.closeMsgModal = () => document.getElementById('msgModalOverlay').style.display = 'none';
         window.adjustHeight = (el) => { el.style.height = '40px'; if (el.scrollHeight > 40) el.style.height = el.scrollHeight + 'px'; };
@@ -312,7 +341,7 @@
                 adminTapCount = 0;
                 const pw = prompt("Enter Admin Password:");
                 if (pw !== "AE123") return;
-                
+
                 const { data, error } = await client.from('download_logs').select('*');
                 if (error) {
                     console.log(error);
@@ -340,14 +369,20 @@
     if (!d_) errors.push("Designation is required");
     if (!e) errors.push("Email is required");
     if (!m) errors.push("Mobile number is required");
-    if (e && !e.includes('@')) errors.push("Email is invalid");
-    if (m && m.length !== 10) errors.push("Mobile number is invalid");
+    if (e && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) errors.push("Email is invalid");
+    if (m && !/^[6-9]\d{9}$/.test(m)) errors.push("Mobile number is invalid (must be 10 digits, starting 6-9)");
 
     if (errors.length > 0) {
         window.showErrorPopup("Errors Found", errors.join("<br>"));
         return;
     }
 
+    // This is the ONLY place a row is inserted into the `users` table -
+    // once per person, at first-time registration. Repeat PDF downloads
+    // (handleDraftShare) no longer insert into `users` again; they only
+    // add a `download_logs` row. This prevents the `users` table from
+    // filling up with duplicate rows every time the same person downloads
+    // another estimate.
     await client.from('users').insert([
         { name: n, designation: d_, email: e, mobile: m }
     ]);
@@ -375,6 +410,13 @@
 };
 
         window.handleDraftShare = async () => {
+    // Block PDF generation when the estimate is empty - previously a report
+    // with zero items and Rs. 0.00 total could be downloaded/saved.
+    if (window.lists.sch.length === 0 && window.lists.finalMisc.length === 0) {
+        window.showErrorPopup("No Items Added", "Please add at least one Schedule item or Misc item before generating the estimate.");
+        return;
+    }
+
     const savedUser = localStorage.getItem('estimate_app_user');
 
     if (!savedUser) {
@@ -384,20 +426,13 @@
 
     const user = JSON.parse(savedUser);
 
-    // USERS TABLE INSERT (हर बार)
-    const { error: userError } = await client.from('users').insert([
-        {
-            name: user.name,
-            designation: user.designation || "-",
-            email: user.email || "-",
-            mobile: user.mobile,
-            created_at: new Date().toISOString()
-        }
-    ]);
-
-    if (userError) console.log(userError);
-
-    // DOWNLOAD LOG
+    // NOTE: previously this also re-inserted into the `users` table on
+    // every single PDF download, so one person downloading 10 estimates
+    // created 10 duplicate rows in `users`. The `users` table is now only
+    // written once, during registration (see saveUserAndDownload above).
+    // Every download still gets its own DOWNLOAD LOG row below, so usage
+    // history/count-of-downloads is still fully tracked - it's just no
+    // longer duplicated into the user profile table.
     const { error } = await client.from('download_logs').insert([
         {
             userName: user.name,
@@ -419,13 +454,20 @@
             window.searchTimer = setTimeout(() => {
                 const source = type === 'sch' ? window.sorSchedules : window.miscItemsList;
                 const sVal = val.toLowerCase().trim();
-                const matches = source.filter(i => {
+                const allMatches = source.filter(i => {
                     const code = ((i.code || i.item) || "").toLowerCase().replace(/[^a-z0-9]/gi, '');
                     const name = (i.name || i.item || "").toLowerCase();
                     return code.includes(sVal.replace(/[^a-z0-9]/gi, '')) || name.includes(sVal);
-                }).slice(0, 30);
+                });
+                const SHOW_LIMIT = 30;
+                const matches = allMatches.slice(0, SHOW_LIMIT);
+                const remaining = allMatches.length - matches.length;
                 if (matches.length > 0) {
-                    dropdown.innerHTML = matches.map(i => `<div class="search-result-card" onclick="window.selectItem('${(i.code || i.item).replace(/'/g, "\\'")}', '${type}')"><div class="card-content"><span style="font-size:9px; color:#64748b;">${i.code || 'MISC'}</span><div class="item-desc-text">${i.name || i.item}</div></div><span style="font-size:10px; font-weight:900; color:#1e3a8a;">₹ ${(i.masterTotalCost || i.rate || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>`).join('');
+                    let html = matches.map(i => `<div class="search-result-card" onclick="window.selectItem('${(i.code || i.item).replace(/'/g, "\\'")}', '${type}')"><div class="card-content"><span style="font-size:9px; color:#64748b;">${i.code || 'MISC'}</span><div class="item-desc-text">${i.name || i.item}</div></div><span style="font-size:10px; font-weight:900; color:#1e3a8a;">₹ ${(i.masterTotalCost || i.rate || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>`).join('');
+                    if (remaining > 0) {
+                        html += `<div style="padding:8px 14px; text-align:center; font-size:10px; font-weight:700; color:#64748b; background:#f8fafc;">+ ${remaining} more result${remaining > 1 ? 's' : ''} — type more of the name/code to narrow it down</div>`;
+                    }
+                    dropdown.innerHTML = html;
                     dropdown.style.display = 'block';
                 } else { dropdown.innerHTML = '<div class="p-4 text-center text-xs">Not found</div>'; dropdown.style.display = 'block'; }
             }, 150);
@@ -441,7 +483,7 @@
             document.getElementById(type + 'Dropdown').style.display = 'none';
             document.getElementById(type + 'Unit').innerText = item.unit || '';
             document.getElementById(type + 'ActionRow').style.display = 'block';
-            document.getElementById(type === 'sch' ? 'schQty' : 'miscQty').value = ''; 
+            document.getElementById(type === 'sch' ? 'schQty' : 'miscQty').value = '';
             setTimeout(() => { const el = document.getElementById(type === 'sch' ? 'schQty' : 'miscQty'); el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 150);
         };
 
@@ -455,21 +497,21 @@
                 itemToSave.total = (itemToSave.masterTotalCost || 0) * qty;
                 window.lists.sch.push(itemToSave);
             } else { itemToSave.total = Math.round(((itemToSave.rate || 0) * qty) * 100) / 100; window.lists.finalMisc.push(itemToSave); }
-            document.getElementById(type + 'Search').value = ''; document.getElementById(type + 'ActionRow').style.display = 'none'; 
+            document.getElementById(type + 'Search').value = ''; document.getElementById(type + 'ActionRow').style.display = 'none';
             window.renderLists();
         };
 
         window.remove = (k, idx) => { window.lists[k].splice(idx,1); window.renderLists(); };
         window.toggleInternal = (idx) => { window.lists.sch[idx].showInternal = !window.lists.sch[idx].showInternal; window.renderLists(); };
         window.updateInternalQty = (si, ii, v) => { const sch = window.lists.sch[si]; const item = sch.items[ii]; const oldAmt = item.currentQty * item.rate; const nQty = cleanNum(v); item.currentQty = nQty; sch.total += (nQty * item.rate - oldAmt); window.renderLists(); };
-        
-        window.removeInternal = (si, ii) => { 
-            const sch = window.lists.sch[si]; 
+
+        window.removeInternal = (si, ii) => {
+            const sch = window.lists.sch[si];
             if (sch && sch.items && sch.items[ii]) {
                 const itemToRemove = sch.items[ii];
-                sch.total -= (itemToRemove.currentQty * itemToRemove.rate); 
-                sch.items.splice(ii, 1); 
-                window.renderLists(); 
+                sch.total -= (itemToRemove.currentQty * itemToRemove.rate);
+                sch.items.splice(ii, 1);
+                window.renderLists();
             }
         };
 
@@ -519,7 +561,7 @@
             let currentY = 46 + (workLines.length * 5);
             if (window.lists.sch.length > 0) { const totalSOR = window.lists.sch.reduce((s, i) => s + i.total, 0); doc.setFont("helvetica", "bold"); doc.text("A. SOR SCHEDULES", 15, currentY); doc.autoTable({ startY: currentY + 3, head: [['No.', 'Code', 'Description', 'Unit', 'Qty', 'Amount']], body: window.lists.sch.map((s, idx) => [idx+1, s.code, s.name, s.unit, s.userQty, fmt(s.total)]), foot: [[{ content: 'Total SOR Amount', colSpan: 5, styles: { halign: 'right' } }, { content: fmt(totalSOR), styles: { halign: 'right' } }]], theme: 'grid', headStyles: { fillColor: [30, 58, 138] }, footStyles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'bold' } }); currentY = doc.lastAutoTable.finalY + 12; }
             if (window.lists.finalMisc.length > 0) { const totalMisc = window.lists.finalMisc.reduce((s, i) => s + i.total, 0); doc.setFont("helvetica", "bold"); doc.text("B. MISC ITEMS", 15, currentY); doc.autoTable({ startY: currentY + 3, head: [['No.', 'Item Name', 'Unit', 'Qty', 'Amount']], body: window.lists.finalMisc.map((m, idx) => [idx+1, m.item, m.unit, m.userQty, fmt(m.total)]), foot: [[{ content: 'Total Misc Amount', colSpan: 4, styles: { halign: 'right' } }, { content: fmt(totalMisc), styles: { halign: 'right' } }]], theme: 'grid', headStyles: { fillColor: [30, 58, 138] }, footStyles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'bold' } }); currentY = doc.lastAutoTable.finalY + 12; }
-            const totalItemCost = [...window.lists.sch, ...window.lists.finalMisc].reduce((s, i) => s + (i.total || 0), 0); 
+            const totalItemCost = [...window.lists.sch, ...window.lists.finalMisc].reduce((s, i) => s + (i.total || 0), 0);
             const supPctStr = document.getElementById('supervisionCharge').value.replace('%','');
             const supPct = cleanNum(supPctStr);
             const supAmt = totalItemCost * supPct / 100;
@@ -537,7 +579,7 @@
 
     <script>
         // Non-Database Global UI Helpers
-        window.validateQty = (el, type) => { if (window.selectedItem[type] && window.selectedItem[type].unit !== "KM" && parseFloat(el.value) < 0) el.value = ""; };
+        window.validateQty = (el, type) => { if (window.selectedItem[type] && parseFloat(el.value) < 0) el.value = ""; };
         window.handleSupKey = (e) => { if (e.key === "Backspace") { e.target.value = ""; window.calculateTotal(); e.preventDefault(); } };
         window.handleSupInput = (el) => { let val = el.value.replace(/[^0-9.]/g, ''); if (val !== "") el.value = val + "%"; window.calculateTotal(); };
         window.addEventListener('focusin', (e) => {
@@ -552,6 +594,94 @@
                 document.body.classList.remove('keyboard-open');
                 document.body.classList.remove('keyboard-edit-sup');
             }
+        });
+    </script>
+
+    <script>
+        // --- APP INSTALL PROMPT (Android + iPhone) ---
+        // Goal: keep nudging the user to install the app on every visit
+        // until it is actually installed - no permanent dismiss.
+
+        window.deferredInstallPrompt = null;
+
+        const isIOSDevice = () => /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isInStandaloneMode = () =>
+            window.matchMedia('(display-mode: standalone)').matches ||
+            window.navigator.standalone === true ||
+            localStorage.getItem('estimate_app_installed') === 'yes';
+
+        window.closeInstallModal = () => {
+            document.getElementById('installModalOverlay').style.display = 'none';
+        };
+
+        window.showInstallModal = (mode) => {
+            if (isInStandaloneMode()) return; // already installed, never nag again
+            const textEl = document.getElementById('installText');
+            const stepsEl = document.getElementById('installSteps');
+            const btnEl = document.getElementById('installNowBtn');
+
+            if (mode === 'ios') {
+                textEl.innerHTML = 'iPhone/iPad par install karne ke liye neeche diye steps follow karein:';
+                stepsEl.style.display = 'block';
+                stepsEl.innerHTML = '1. Neeche Safari toolbar me <b>Share</b> icon (□↑) par tap karein<br>2. Niche scroll karke <b>"Add to Home Screen"</b> par tap karein<br>3. Top-right me <b>"Add"</b> par tap karein';
+                btnEl.style.display = 'none'; // iOS has no programmatic install trigger
+            } else {
+                textEl.innerHTML = 'Install this app on your device for a faster, full-screen, offline-friendly experience — no browser address bar, opens like a normal app.';
+                stepsEl.style.display = 'none';
+                btnEl.style.display = 'block';
+            }
+            document.getElementById('installModalOverlay').style.display = 'flex';
+        };
+
+        window.handleInstallClick = async () => {
+            if (!window.deferredInstallPrompt) {
+                // Browser hasn't offered a native prompt yet (or doesn't support
+                // one, e.g. some Android browsers) - fall back to manual steps.
+                const textEl = document.getElementById('installText');
+                const stepsEl = document.getElementById('installSteps');
+                textEl.innerHTML = 'Apne browser ke menu (⋮ ya ⋯) se yeh option dhundhein:';
+                stepsEl.style.display = 'block';
+                stepsEl.innerHTML = '&bull; <b>"Install App"</b> ya<br>&bull; <b>"Add to Home Screen"</b>';
+                document.getElementById('installNowBtn').style.display = 'none';
+                return;
+            }
+            window.deferredInstallPrompt.prompt();
+            const { outcome } = await window.deferredInstallPrompt.userChoice;
+            window.deferredInstallPrompt = null;
+            if (outcome === 'accepted') {
+                localStorage.setItem('estimate_app_installed', 'yes');
+            }
+            window.closeInstallModal();
+        };
+
+        // Android/Chrome: browser fires this when the app is installable.
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.deferredInstallPrompt = e;
+            if (!isInStandaloneMode()) window.showInstallModal('android');
+        });
+
+        // Fires after a successful install (any platform that supports it).
+        window.addEventListener('appinstalled', () => {
+            localStorage.setItem('estimate_app_installed', 'yes');
+            window.closeInstallModal();
+        });
+
+        // On every page load: if not already installed, show the popup.
+        // iPhone gets manual instructions immediately (no beforeinstallprompt
+        // event exists on iOS). Android/desktop Chrome waits briefly for the
+        // beforeinstallprompt event above; if it doesn't arrive in time,
+        // show the generic popup anyway so the reminder still appears.
+        window.addEventListener('load', () => {
+            if (isInStandaloneMode()) return;
+            setTimeout(() => {
+                if (isInStandaloneMode()) return;
+                if (isIOSDevice()) {
+                    window.showInstallModal('ios');
+                } else if (document.getElementById('installModalOverlay').style.display !== 'flex') {
+                    window.showInstallModal('android');
+                }
+            }, 1500);
         });
     </script>
 </body>
