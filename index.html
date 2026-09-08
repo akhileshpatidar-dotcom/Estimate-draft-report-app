@@ -8,7 +8,12 @@
     <!-- PWA Settings -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href='data:application/json,{"name":"Estimate App AE","short_name":"Estimate","start_url":".","display":"standalone","background_color":"%23f3f4f6","theme_color":"%231e3a8a","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAACg0lEQVR4nO3dr25TYRjAYUpw3XXsAgqGe8DMcAENIbMk0xBMVcX0BJp0YgbRGyB1uxIUjswgSCjhj+lv3ck5PI884uTNyS+v6Zevs+1q/ggO9XjoARg3AZEIiERAJAIiefLno9ef3j38HIzC1Yv3vz2xgUgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCJ%2BeTlqZ89vL199HnqKf/ry9eTpm7dDT3GfbCASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQydSOcxQXH15ef3429BQjYwORCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREIlf4/fWy816uTnSy6d3rcIPNhCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIxHGOPZcrHMAGIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZFM5FDBTze7xc1uMfQU/xEbiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZHMtqv50DMwYjYQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkcy2q/nQMzBiNhCJgEgERCIgEgGRfAcdFSL/GocmtwAAAABJRU5ErkJggg==","sizes":"192x192","type":"image/png","purpose":"any maskable"}]}'>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Estimate">
+    <!-- App icon: navy/gold "estimate document + rupee" mark, matches app theme -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231e3a8a'/%3E%3Crect x='26' y='16' width='48' height='64' rx='6' fill='%23ffffff'/%3E%3Crect x='34' y='28' width='32' height='5' rx='2.5' fill='%231e3a8a'/%3E%3Crect x='34' y='40' width='32' height='5' rx='2.5' fill='%231e3a8a'/%3E%3Crect x='34' y='52' width='20' height='5' rx='2.5' fill='%231e3a8a'/%3E%3Ccircle cx='70' cy='72' r='19' fill='%23b8860b' stroke='%231e3a8a' stroke-width='2'/%3E%3Ctext x='70' y='79' font-family='Arial' font-size='22' font-weight='900' fill='%23ffffff' text-anchor='middle'%3E%E2%82%B9%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/png;base64,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">
+    <link rel="manifest" href='data:application/json,{"name":"Estimate App AE","short_name":"Estimate","start_url":".","display":"standalone","background_color":"%23f3f4f6","theme_color":"%231e3a8a","icons":[{"src":"data:image/png;base64,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","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"data:image/png;base64,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","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -111,17 +116,19 @@
         .keyboard-edit-sup .bottom-anchor { display: block !important; }
         .keyboard-open .scrollable-content { padding-bottom: 300px; }
 
-        /* Install App Popup */
-        #installModalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 7000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        .install-card { background: white; width: 85%; max-width: 340px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.35); }
-        .install-header { background: #1e3a8a; color: #fff; padding: 16px; text-align: center; border-bottom: 3px solid #b8860b; }
-        .install-icon { width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 8px; display: block; }
-        .install-title { font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .install-body { padding: 18px 20px; text-align: center; }
-        .install-text { color: #475569; font-size: 12.5px; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
-        .install-steps { text-align: left; background: #f8fafc; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: #1e293b; font-weight: 600; line-height: 1.9; }
-        .btn-install-now { background: #1e3a8a; color: #fff; width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; border-bottom: 4px solid #b8860b; }
-        .btn-install-later { background: none; color: #64748b; width: 100%; padding: 10px; border: none; font-weight: 700; font-size: 11.5px; text-transform: uppercase; cursor: pointer; margin-top: 4px; }
+        /* PWA Install Banner - same pattern/flow as Seoni Circle App:
+           a top banner (not a blocking popup), reappears every visit until
+           the app is actually installed, works the same way on Android and
+           iPhone (iPhone just shows manual "Add to Home Screen" steps since
+           iOS has no programmatic install prompt). */
+        .pwa-install-banner { position: fixed; top: 0; left: 0; right: 0; z-index: 7000; background: #1e3a8a; box-shadow: 0 6px 18px rgba(15,23,42,0.25); padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px 8px; border-bottom: 3px solid #b8860b; }
+        .pwa-install-banner-inner { max-width: 450px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
+        .pwa-install-banner-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .pwa-install-banner-text { flex: 1; min-width: 0; }
+        .pwa-install-banner-title { color: #FFD700; font-weight: 900; font-size: 0.82rem; text-transform: uppercase; }
+        .pwa-install-banner-message { color: #cbd5e1; font-weight: 600; font-size: 0.72rem; line-height: 1.35; }
+        .pwa-install-action-btn { flex-shrink: 0; background: #ffffff; color: #1e3a8a; border: none; border-radius: 999px; padding: 8px 16px; font-weight: 950; font-size: 0.78rem; cursor: pointer; }
+        .pwa-install-close-btn { flex-shrink: 0; background: transparent; border: none; color: #cbd5e1; font-size: 1rem; padding: 4px 6px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -157,20 +164,20 @@
             </div>
         </div>
 
-        <!-- Install App Popup: shown on load if not yet installed. Keeps
-             reappearing on every visit until the app is actually installed
-             (no permanent "don't show again" - only closing for that visit). -->
-        <div id="installModalOverlay">
-            <div class="install-card">
-                <div class="install-header">
-                    <div class="install-title">Install Estimate App</div>
+        <!-- PWA Install Banner: shown on load if not yet installed. Keeps
+             reappearing on every visit until the app is actually installed -
+             no permanent "don't show again", closing (✕) only hides it for
+             that visit. Same banner + same flow on Android and iPhone; only
+             the button behaviour differs (native prompt vs manual steps). -->
+        <div id="pwa-install-banner" class="pwa-install-banner" style="display:none;" role="dialog" aria-label="App install karein">
+            <div class="pwa-install-banner-inner">
+                <span class="pwa-install-banner-icon">📲</span>
+                <div class="pwa-install-banner-text">
+                    <div id="pwa-install-banner-title" class="pwa-install-banner-title">App Install Karein</div>
+                    <div id="pwa-install-banner-message" class="pwa-install-banner-message">Home screen se seedhe app kholiye.</div>
                 </div>
-                <div class="install-body">
-                    <div id="installText" class="install-text">Install this app on your device for a faster, full-screen, offline-friendly experience — no browser address bar, opens like a normal app.</div>
-                    <div id="installSteps" class="install-steps" style="display:none;"></div>
-                    <button id="installNowBtn" class="btn-install-now" onclick="window.handleInstallClick()">Install Now</button>
-                    <button class="btn-install-later" onclick="window.closeInstallModal()">Maybe Later</button>
-                </div>
+                <button id="pwa-install-action-btn" class="pwa-install-action-btn" type="button" onclick="window.handlePwaInstallAction()">Install</button>
+                <button class="pwa-install-close-btn" type="button" onclick="window.dismissPwaInstallBanner()" aria-label="Band karein">✕</button>
             </div>
         </div>
 
@@ -598,90 +605,85 @@
     </script>
 
     <script>
-        // --- APP INSTALL PROMPT (Android + iPhone) ---
-        // Goal: keep nudging the user to install the app on every visit
-        // until it is actually installed - no permanent dismiss.
+        // --- PWA INSTALL BANNER (Android + iPhone) ---
+        // Same banner + same flow as the Seoni Circle App: no permanent
+        // "dismissed" flag - only ever checks whether the app is actually
+        // installed. Until it is, the banner reappears on every refresh/
+        // reopen, on both platforms; closing (✕) only hides it for that
+        // one visit.
 
-        window.deferredInstallPrompt = null;
+        let deferredPwaInstallPrompt = null;
 
-        const isIOSDevice = () => /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        const isInStandaloneMode = () =>
-            window.matchMedia('(display-mode: standalone)').matches ||
-            window.navigator.standalone === true ||
-            localStorage.getItem('estimate_app_installed') === 'yes';
+        function isRunningAsInstalledPwa() {
+            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        }
 
-        window.closeInstallModal = () => {
-            document.getElementById('installModalOverlay').style.display = 'none';
-        };
-
-        window.showInstallModal = (mode) => {
-            if (isInStandaloneMode()) return; // already installed, never nag again
-            const textEl = document.getElementById('installText');
-            const stepsEl = document.getElementById('installSteps');
-            const btnEl = document.getElementById('installNowBtn');
-
-            if (mode === 'ios') {
-                textEl.innerHTML = 'iPhone/iPad par install karne ke liye neeche diye steps follow karein:';
-                stepsEl.style.display = 'block';
-                stepsEl.innerHTML = '1. Neeche Safari toolbar me <b>Share</b> icon (□↑) par tap karein<br>2. Niche scroll karke <b>"Add to Home Screen"</b> par tap karein<br>3. Top-right me <b>"Add"</b> par tap karein';
-                btnEl.style.display = 'none'; // iOS has no programmatic install trigger
+        window.showPwaInstallBanner = (platform) => {
+            if (isRunningAsInstalledPwa()) return;
+            const banner = document.getElementById('pwa-install-banner');
+            const title = document.getElementById('pwa-install-banner-title');
+            const message = document.getElementById('pwa-install-banner-message');
+            const actionBtn = document.getElementById('pwa-install-action-btn');
+            if (!banner) return;
+            if (platform === 'ios') {
+                title.innerText = 'App Install Karein';
+                message.innerText = "Share button dabaiye, phir 'Add to Home Screen' select kijiye.";
+                actionBtn.innerText = 'Samjh Gaya';
             } else {
-                textEl.innerHTML = 'Install this app on your device for a faster, full-screen, offline-friendly experience — no browser address bar, opens like a normal app.';
-                stepsEl.style.display = 'none';
-                btnEl.style.display = 'block';
+                title.innerText = 'App Install Karein';
+                message.innerText = 'Home screen se seedhe app kholiye, dobara link dhundhna nahi padega.';
+                actionBtn.innerText = 'Install';
             }
-            document.getElementById('installModalOverlay').style.display = 'flex';
+            banner.dataset.platform = platform;
+            banner.style.display = 'block';
         };
 
-        window.handleInstallClick = async () => {
-            if (!window.deferredInstallPrompt) {
-                // Browser hasn't offered a native prompt yet (or doesn't support
-                // one, e.g. some Android browsers) - fall back to manual steps.
-                const textEl = document.getElementById('installText');
-                const stepsEl = document.getElementById('installSteps');
-                textEl.innerHTML = 'Apne browser ke menu (⋮ ya ⋯) se yeh option dhundhein:';
-                stepsEl.style.display = 'block';
-                stepsEl.innerHTML = '&bull; <b>"Install App"</b> ya<br>&bull; <b>"Add to Home Screen"</b>';
-                document.getElementById('installNowBtn').style.display = 'none';
+        window.dismissPwaInstallBanner = () => {
+            // Sirf abhi ke liye (is visit ke liye) banner hata do - koi
+            // permanent "dismissed" flag save nahi karte, taaki agli baar
+            // reopen/refresh karne par (jab tak install nahi hua) banner
+            // phir se dikhe.
+            const banner = document.getElementById('pwa-install-banner');
+            if (banner) banner.style.display = 'none';
+        };
+
+        window.handlePwaInstallAction = async () => {
+            const banner = document.getElementById('pwa-install-banner');
+            const platform = banner?.dataset.platform;
+            if (platform === 'ios') {
+                // iOS has no programmatic install trigger - button is just
+                // an acknowledgement after the user reads the instructions.
+                window.dismissPwaInstallBanner();
                 return;
             }
-            window.deferredInstallPrompt.prompt();
-            const { outcome } = await window.deferredInstallPrompt.userChoice;
-            window.deferredInstallPrompt = null;
-            if (outcome === 'accepted') {
-                localStorage.setItem('estimate_app_installed', 'yes');
+            if (!deferredPwaInstallPrompt) {
+                window.dismissPwaInstallBanner();
+                return;
             }
-            window.closeInstallModal();
+            deferredPwaInstallPrompt.prompt();
+            try { await deferredPwaInstallPrompt.userChoice; } catch (_) {}
+            deferredPwaInstallPrompt = null;
+            window.dismissPwaInstallBanner();
         };
 
         // Android/Chrome: browser fires this when the app is installable.
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            window.deferredInstallPrompt = e;
-            if (!isInStandaloneMode()) window.showInstallModal('android');
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredPwaInstallPrompt = event;
+            window.showPwaInstallBanner('android');
         });
 
-        // Fires after a successful install (any platform that supports it).
         window.addEventListener('appinstalled', () => {
-            localStorage.setItem('estimate_app_installed', 'yes');
-            window.closeInstallModal();
+            window.dismissPwaInstallBanner();
         });
 
-        // On every page load: if not already installed, show the popup.
-        // iPhone gets manual instructions immediately (no beforeinstallprompt
-        // event exists on iOS). Android/desktop Chrome waits briefly for the
-        // beforeinstallprompt event above; if it doesn't arrive in time,
-        // show the generic popup anyway so the reminder still appears.
-        window.addEventListener('load', () => {
-            if (isInStandaloneMode()) return;
-            setTimeout(() => {
-                if (isInStandaloneMode()) return;
-                if (isIOSDevice()) {
-                    window.showInstallModal('ios');
-                } else if (document.getElementById('installModalOverlay').style.display !== 'flex') {
-                    window.showInstallModal('android');
-                }
-            }, 1500);
+        function initPwaInstallBannerForIos() {
+            const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+            if (isIos) window.showPwaInstallBanner('ios');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initPwaInstallBannerForIos();
         });
     </script>
 </body>
