@@ -562,22 +562,129 @@
         };
 
         window.generatePDF = () => {
-            const { jsPDF } = window.jspdf; const doc = new jsPDF('l', 'mm', 'a4'); const pageWidth = doc.internal.pageSize.getWidth(); const pageHeight = doc.internal.pageSize.getHeight(); const fmt = (n) => n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            doc.setFillColor(30, 58, 138); doc.rect(15, 12, pageWidth - 30, 14, 'F'); doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(255); doc.text("ESTIMATE DRAFT REPORT", pageWidth / 2, 21.5, { align: 'center' });
-            doc.setFontSize(11); doc.setTextColor(0); doc.text("NAME OF WORK:", 15, 38); doc.setFont("helvetica", "normal"); const workLines = doc.splitTextToSize(document.getElementById('nameOfWork').value || "N/A", pageWidth - 60); doc.text(workLines, 55, 38);
-            let currentY = 46 + (workLines.length * 5);
-            if (window.lists.sch.length > 0) { const totalSOR = window.lists.sch.reduce((s, i) => s + i.total, 0); doc.setFont("helvetica", "bold"); doc.text("A. SOR SCHEDULES", 15, currentY); doc.autoTable({ startY: currentY + 3, head: [['No.', 'Code', 'Description', 'Unit', 'Qty', 'Amount']], body: window.lists.sch.map((s, idx) => [idx+1, s.code, s.name, s.unit, s.userQty, fmt(s.total)]), foot: [[{ content: 'Total SOR Amount', colSpan: 5, styles: { halign: 'right' } }, { content: fmt(totalSOR), styles: { halign: 'right' } }]], theme: 'grid', headStyles: { fillColor: [30, 58, 138] }, footStyles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'bold' } }); currentY = doc.lastAutoTable.finalY + 12; }
-            if (window.lists.finalMisc.length > 0) { const totalMisc = window.lists.finalMisc.reduce((s, i) => s + i.total, 0); doc.setFont("helvetica", "bold"); doc.text("B. MISC ITEMS", 15, currentY); doc.autoTable({ startY: currentY + 3, head: [['No.', 'Item Code', 'Item Name', 'Unit', 'Qty', 'Amount']], body: window.lists.finalMisc.map((m, idx) => { const cm = String(m.item || '').match(/^\s*([A-Za-z0-9]+)\s*-\s*([\s\S]*)$/); return [idx+1, cm ? cm[1] : '', cm ? cm[2] : m.item, m.unit, m.userQty, fmt(m.total)]; }), foot: [[{ content: 'Total Misc Amount', colSpan: 5, styles: { halign: 'right' } }, { content: fmt(totalMisc), styles: { halign: 'right' } }]], theme: 'grid', headStyles: { fillColor: [30, 58, 138] }, footStyles: { fillColor: [255, 255, 255], textColor: 0, fontStyle: 'bold' } }); currentY = doc.lastAutoTable.finalY + 12; }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'mm', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const M = 15; // left/right margin
+            const NAVY = [30, 58, 138], GOLD = [184, 134, 11], GRID = [148, 163, 184], ZEBRA = [244, 246, 251];
+            const fmt = (n) => n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const fq = (n) => (Number.isInteger(n) ? n : parseFloat(Number(n).toFixed(3)));
+
+            // Shared table look: full borders on every cell, zebra rows, repeating
+            // header on every page, and a row is never split across two pages.
+            const baseTable = {
+                theme: 'grid',
+                margin: { left: M, right: M, top: 18, bottom: 18 },
+                rowPageBreak: 'avoid',
+                showHead: 'everyPage',
+                styles: { font: 'helvetica', fontSize: 8.5, cellPadding: 2.2, lineColor: GRID, lineWidth: 0.2, textColor: [30, 41, 59], valign: 'middle', overflow: 'linebreak' },
+                headStyles: { fillColor: NAVY, textColor: 255, fontStyle: 'bold', halign: 'center', lineColor: NAVY },
+                footStyles: { fillColor: [226, 232, 240], textColor: [15, 23, 42], fontStyle: 'bold', lineColor: GRID },
+                alternateRowStyles: { fillColor: ZEBRA }
+            };
+            const footRight = (label, span, value) => [[{ content: label, colSpan: span, styles: { halign: 'right' } }, { content: value, styles: { halign: 'right' } }]];
+            const ensureSpace = (y, need) => { if (y + need > pageHeight - 20) { doc.addPage('a4', 'l'); return 20; } return y; };
+
+            // ---- Title bar ----
+            doc.setFillColor(...NAVY); doc.rect(M, 12, pageWidth - 2 * M, 14, 'F');
+            doc.setFillColor(...GOLD); doc.rect(M, 26, pageWidth - 2 * M, 1.2, 'F');
+            doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(255);
+            doc.text("ESTIMATE DRAFT REPORT", pageWidth / 2, 21.5, { align: 'center' });
+
+            // ---- Name of work + date ----
+            doc.setFontSize(10.5); doc.setTextColor(0);
+            doc.text("NAME OF WORK:", M, 37);
+            doc.setFont("helvetica", "normal");
+            const workLines = doc.splitTextToSize(document.getElementById('nameOfWork').value || "N/A", pageWidth - 2 * M - 95);
+            doc.text(workLines, M + 36, 37);
+            doc.setFont("helvetica", "bold"); doc.text("DATE:", pageWidth - M - 40, 37);
+            doc.setFont("helvetica", "normal"); doc.text(new Date().toLocaleDateString('en-IN'), pageWidth - M - 28, 37);
+            let currentY = 45 + (workLines.length * 5);
+
+            const sectionTitle = (text) => { currentY = ensureSpace(currentY, 30); doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(...NAVY); doc.text(text, M, currentY); };
+
+            // ---- A. SOR schedules ----
+            if (window.lists.sch.length > 0) {
+                const totalSOR = window.lists.sch.reduce((s, i) => s + i.total, 0);
+                sectionTitle("A. SOR SCHEDULES");
+                doc.autoTable({ ...baseTable, startY: currentY + 3,
+                    head: [['No.', 'Code', 'Description', 'Unit', 'Qty', 'Amount']],
+                    body: window.lists.sch.map((s, idx) => [idx + 1, s.code, s.name, s.unit, fq(s.userQty), fmt(s.total)]),
+                    foot: footRight('Total SOR Amount', 5, fmt(totalSOR)),
+                    columnStyles: { 0: { cellWidth: 14, halign: 'center' }, 1: { cellWidth: 38 }, 3: { cellWidth: 18, halign: 'center' }, 4: { cellWidth: 18, halign: 'right' }, 5: { cellWidth: 36, halign: 'right' } } });
+                currentY = doc.lastAutoTable.finalY + 10;
+            }
+
+            // ---- B. Misc items ----
+            if (window.lists.finalMisc.length > 0) {
+                const totalMisc = window.lists.finalMisc.reduce((s, i) => s + i.total, 0);
+                sectionTitle("B. MISC ITEMS");
+                doc.autoTable({ ...baseTable, startY: currentY + 3,
+                    head: [['No.', 'Item Code', 'Item Name', 'Unit', 'Qty', 'Amount']],
+                    body: window.lists.finalMisc.map((m, idx) => { const cm = String(m.item || '').match(/^\s*([A-Za-z0-9]+)\s*-\s*([\s\S]*)$/); return [idx + 1, cm ? cm[1] : '', cm ? cm[2] : m.item, m.unit, fq(m.userQty), fmt(m.total)]; }),
+                    foot: footRight('Total Misc Amount', 5, fmt(totalMisc)),
+                    columnStyles: { 0: { cellWidth: 14, halign: 'center' }, 1: { cellWidth: 30 }, 3: { cellWidth: 18, halign: 'center' }, 4: { cellWidth: 18, halign: 'right' }, 5: { cellWidth: 36, halign: 'right' } } });
+                currentY = doc.lastAutoTable.finalY + 10;
+            }
+
+            // ---- Totals box ----
             const totalItemCost = [...window.lists.sch, ...window.lists.finalMisc].reduce((s, i) => s + (i.total || 0), 0);
-            const supPctStr = document.getElementById('supervisionCharge').value.replace('%','');
-            const supPct = cleanNum(supPctStr);
+            const supPct = cleanNum(document.getElementById('supervisionCharge').value.replace('%', ''));
             const supAmt = totalItemCost * supPct / 100;
-            doc.autoTable({ startY: currentY + 3, margin: { left: 160 }, tableWidth: 120, body: [['TOTAL COST (SCHED+MISC)', fmt(totalItemCost)], [`SUPERVISION CHARGE (${supPct}%)`, fmt(supAmt)], [{ content: 'ESTIMATE AMOUNT', styles: { textColor: [30, 58, 138], fontStyle: 'bold', fontSize: 11 } }, { content: 'Rs. ' + fmt(totalItemCost + supAmt), styles: { textColor: [30, 58, 138], fontStyle: 'bold', fontSize: 11 } }]], theme: 'plain', styles: { halign: 'right', fontSize: 10 }, columnStyles: { 0: { cellWidth: 70, halign: 'left' }, 1: { cellWidth: 50, halign: 'right' } } });
-            window.lists.sch.forEach((sch) => { doc.addPage('a4', 'l'); doc.setFont("helvetica", "bold"); doc.setTextColor(30, 58, 138); doc.text(`DETAILED BREAKDOWN: ${sch.code}`, 15, 20); doc.autoTable({ startY: 30, head: [['S.No', 'Item Code', 'Particulars', 'Unit', 'Rate', 'Qty', 'Amt']], body: sch.items.map((it, i) => [i + 1, it.code || '', it.name, it.unit, fmt(it.rate), (window.isStructure(it.unit) ? Math.ceil(it.currentQty) : it.currentQty), fmt(it.currentQty * it.rate)]), theme: 'striped' }); doc.setFont("helvetica", "bold"); doc.text(`Schedule Total: Rs. ${fmt(sch.total)}`, pageWidth - 15, doc.lastAutoTable.finalY + 10, { align: 'right' }); });
+            currentY = ensureSpace(currentY, 34);
+            doc.autoTable({ ...baseTable, startY: currentY, margin: { left: pageWidth - M - 120, right: M },
+                tableWidth: 120, showHead: 'never',
+                body: [
+                    ['TOTAL COST (SCHED+MISC)', fmt(totalItemCost)],
+                    [`SUPERVISION CHARGE (${supPct}%)`, fmt(supAmt)],
+                    [{ content: 'ESTIMATE AMOUNT', styles: { fillColor: NAVY, textColor: 255, fontStyle: 'bold', fontSize: 10.5 } }, { content: 'Rs. ' + fmt(totalItemCost + supAmt), styles: { fillColor: NAVY, textColor: 255, fontStyle: 'bold', fontSize: 10.5, halign: 'right' } }]
+                ],
+                alternateRowStyles: {}, styles: { ...baseTable.styles, fontSize: 9.5, cellPadding: 2.8 },
+                columnStyles: { 0: { cellWidth: 70, fontStyle: 'bold' }, 1: { cellWidth: 50, halign: 'right' } } });
+
+            // ---- Detailed breakdown per schedule ----
+            window.lists.sch.forEach((sch) => {
+                doc.addPage('a4', 'l');
+                doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(...NAVY);
+                doc.text(`DETAILED BREAKDOWN: ${sch.code}`, M, 20);
+                doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(71, 85, 105);
+                const nm = doc.splitTextToSize(sch.name || '', pageWidth - 2 * M);
+                doc.text(nm.slice(0, 2), M, 25.5);
+                const startY = 26 + Math.min(nm.length, 2) * 4;
+                doc.autoTable({ ...baseTable, startY,
+                    head: [['S.No', 'Item Code', 'Particulars', 'Unit', 'Rate', 'Qty', 'Amt']],
+                    body: sch.items.map((it, i) => [i + 1, it.code || '', it.name, it.unit, fmt(it.rate), fq(window.isStructure(it.unit) ? Math.ceil(it.currentQty) : it.currentQty), fmt(it.currentQty * it.rate)]),
+                    columnStyles: { 0: { cellWidth: 14, halign: 'center' }, 1: { cellWidth: 28 }, 3: { cellWidth: 18, halign: 'center' }, 4: { cellWidth: 30, halign: 'right' }, 5: { cellWidth: 20, halign: 'right' }, 6: { cellWidth: 32, halign: 'right' } } });
+                let y = doc.lastAutoTable.finalY + 8;
+                y = ensureSpace(y - 8, 18) === 20 ? 20 : y;
+                doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(...NAVY);
+                doc.text(`Schedule Total: Rs. ${fmt(sch.total)}`, pageWidth - M, y, { align: 'right' });
+                doc.lastAutoTable.finalY = y; // keep disclaimer placement logic below correct
+            });
+
+            // ---- Disclaimer ----
             const discText = "The cost calculated in this report is an approximate estimate and may differ from the final amount. The final cost shall be as per the official estimate prepared in the departmental system. This report is generated solely for the purpose of providing a rough estimate to assist in planning and decision-making.";
-            const wrappedDisc = doc.splitTextToSize(discText, pageWidth - 100); const boxHeight = 12 + (wrappedDisc.length * 5);
-            const lastY = doc.lastAutoTable.finalY > (pageHeight - boxHeight - 20) ? (doc.addPage('a4', 'l'), 20) : (pageHeight - boxHeight - 15);
-            doc.setFillColor(0); doc.rect(45, lastY, pageWidth - 90, boxHeight, 'F'); doc.setTextColor(255); doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.text("Note:", pageWidth / 2, lastY + 7, { align: 'center' }); doc.setFontSize(8.5); doc.setFont("helvetica", "normal"); doc.text(wrappedDisc, pageWidth / 2, lastY + 13, { align: 'center' });
+            doc.setFontSize(8.5);
+            const wrappedDisc = doc.splitTextToSize(discText, pageWidth - 100);
+            const boxHeight = 12 + (wrappedDisc.length * 4.2);
+            let lastY = doc.lastAutoTable.finalY > (pageHeight - boxHeight - 28) ? (doc.addPage('a4', 'l'), 20) : (pageHeight - boxHeight - 22);
+            doc.setFillColor(...NAVY); doc.rect(45, lastY, pageWidth - 90, boxHeight, 'F');
+            doc.setFillColor(...GOLD); doc.rect(45, lastY, pageWidth - 90, 1.2, 'F');
+            doc.setTextColor(255); doc.setFontSize(10); doc.setFont("helvetica", "bold");
+            doc.text("Note:", pageWidth / 2, lastY + 7, { align: 'center' });
+            doc.setFontSize(8.5); doc.setFont("helvetica", "normal");
+            doc.text(wrappedDisc, pageWidth / 2, lastY + 12.5, { align: 'center' });
+
+            // ---- Footer on every page: page numbers ----
+            const total = doc.getNumberOfPages();
+            for (let p = 1; p <= total; p++) {
+                doc.setPage(p);
+                doc.setDrawColor(...GRID); doc.setLineWidth(0.2); doc.line(M, pageHeight - 11, pageWidth - M, pageHeight - 11);
+                doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(100, 116, 139);
+                doc.text("Estimate Draft Report", M, pageHeight - 6.5);
+                doc.text(`Page ${p} of ${total}`, pageWidth - M, pageHeight - 6.5, { align: 'right' });
+            }
             doc.save(`Estimate_Draft_${Date.now()}.pdf`);
         };
 
